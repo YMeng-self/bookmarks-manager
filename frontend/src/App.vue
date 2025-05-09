@@ -8,7 +8,7 @@
             <el-icon><ChromeFilled /></el-icon> 导入Chrome书签
           </el-button>
           <el-button type="primary" @click="importBookmarks('edge')">
-            <el-icon><Microsoft /></el-icon> 导入Edge书签
+            <el-icon><Monitor /></el-icon> 导入Edge书签
           </el-button>
           <el-button type="success" @click="exportBookmarks">
             <el-icon><Upload /></el-icon> 导出书签
@@ -142,7 +142,7 @@ import { ref, onMounted, nextTick, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   ChromeFilled,
-  Microsoft,
+  Monitor,
   Upload,
   Search,
   FolderAdd,

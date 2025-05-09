@@ -40,7 +40,7 @@ class BookmarkUpdate(BaseModel):
 
 class FolderCreate(BaseModel):
     name: str
-    parent_id: Optional[int] = None
+    parentId: Optional[int] = None
 
 @app.get("/")
 async def root():
@@ -156,7 +156,7 @@ async def create_folder(folder: FolderCreate, db: Session = Depends(get_db)):
     try:
         new_folder = Group(
             name=folder.name,
-            parent_id=folder.parent_id
+            parent_id=folder.parentId
         )
         db.add(new_folder)
         db.commit()
