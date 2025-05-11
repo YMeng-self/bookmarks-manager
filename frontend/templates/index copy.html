@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>书签管理器</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .actions { white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>书签管理器</h1>
+        
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" id="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="url" id="url" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="tags">标签 (用逗号分隔)</label>
+            <input type="text" id="tags">
+        </div>
+        
+        <button onclick="addBookmark()">添加书签</button>
+        
+        <table id="bookmarksTable">
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>URL</th>
+                    <th>标签</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // 加载书签列表
+        function loadBookmarks() {
+            fetch('/bookmarks')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#bookmarksTable tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.forEach(bookmark => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${bookmark.title}</td>
+                            <td><a href="${bookmark.url}" target="_blank">${bookmark.url}</a></td>
+                            <td>${bookmark.tags || ''}</td>
+                            <td class="actions">
+                                <button onclick="deleteBookmark(${bookmark.id})">删除</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                });
+        }
+        
+        // 添加书签
+        function addBookmark() {
+            const title = document.getElementById('title').value;
+            const url = document.getElementById('url').value;
+            const tags = document.getElementById('tags').value;
+            
+            if (!title || !url) {
+                alert('标题和URL是必填项');
+                return;
+            }
+            
+            fetch('/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, url, tags })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('title').value = '';
+                    document.getElementById('url').value = '';
+                    document.getElementById('tags').value = '';
+                    loadBookmarks();
+                }
+            });
+        }
+        
+        // 删除书签
+        function deleteBookmark(id) {
+            if (confirm('确定要删除这个书签吗？')) {
+                fetch('/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadBookmarks();
+                    }
+                });
+            }
+        }
+        
+        // 页面加载时获取书签
+        window.onload = loadBookmarks;
+    </script>
+</body>
+</html>

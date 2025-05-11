@@ -1,7 +1,15 @@
-fastapi==0.109.2
-uvicorn==0.27.1
-sqlalchemy==2.0.27
-pydantic==2.6.1
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+fastapi[standard]==0.113.0
+pydantic==2.8.0
+
 pywebview==5.4
-python-multipart==0.0.9
-aiosqlite==0.19.0 
+
+# fastapi==0.109.2
+# uvicorn==0.27.1
+# sqlalchemy==2.0.27
+# pydantic==2.6.1
+# pywebview==5.4
+# python-multipart==0.0.9
+# aiosqlite==0.19.0 

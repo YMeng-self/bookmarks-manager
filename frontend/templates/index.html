@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书签管理器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: white;
+            padding: 0.8rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* 主内容区域 */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 左侧目录 */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-right: 1px solid #e9ecef;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .folder-list {
+            list-style: none;
+        }
+
+        .folder-item {
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .folder-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .folder-item.active {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .folder-item i {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .folder-item.active i {
+            color: var(--primary-color);
+        }
+
+        /* 右侧书签内容 */
+        .content {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .bookmark-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bookmark-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.2rem;
+            transition: var(--transition);
+            border: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bookmark-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .bookmark-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .bookmark-url {
+            color: var(--gray-color);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .bookmark-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .bookmark-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 0.3rem;
+            border-radius: 50%;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            .bookmark-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-box {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-bookmark"></i>
+            <span>书签管理器</span>
+        </div>
+        <div class="navbar-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索书签..." id="searchInput">
+            </div>
+            <button class="btn btn-outline" id="importBtn">
+                <i class="fas fa-file-import"></i>
+                <span class="desktop-text">导入</span>
+            </button>
+            <button class="btn btn-outline" id="exportBtn">
+                <i class="fas fa-file-export"></i>
+                <span class="desktop-text">导出</span>
+            </button>
+            <button class="btn btn-primary" id="addBookmarkBtn">
+                <i class="fas fa-plus"></i>
+                <span class="desktop-text">添加书签</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <div class="main-container">
+        <!-- 左侧目录 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title">目录</h3>
+                <button class="action-btn" title="新建文件夹">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <ul class="folder-list">
+                <li class="folder-item active">
+                    <i class="fas fa-bookmark"></i>
+                    <span>所有书签</span>
+                    <span class="badge">42</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>工作</span>
+                    <span class="badge">12</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>学习</span>
+                    <span class="badge">8</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>娱乐</span>
+                    <span class="badge">15</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>开发</span>
+                    <span class="badge">7</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>设计</span>
+                    <span class="badge">5</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 右侧书签内容 -->
+        <div class="content">
+            <div class="content-header">
+                <h2 class="content-title">所有书签</h2>
+                <div class="sort-options">
+                    <select class="form-select">
+                        <option>按名称排序</option>
+                        <option>按日期排序</option>
+                        <option>按访问次数排序</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bookmark-grid" id="bookmarkGrid">
+                <!-- 书签卡片将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加书签模态框 -->
+    <div class="modal" id="addBookmarkModal" style="display: none;">
+        <!-- 模态框内容将在JavaScript中实现 -->
+    </div>
+
+    <script>
+        // 示例数据
+        const bookmarks = [
+            {
+                id: 1,
+                title: "GitHub",
+                url: "https://github.com",
+                tags: ["开发", "代码"],
+                description: "代码托管平台",
+                createdAt: "2023-05-15",
+                favicon: "https://github.githubassets.com/favicons/favicon.png"
+            },
+            {
+                id: 2,
+                title: "Stack Overflow",
+                url: "https://stackoverflow.com",
+                tags: ["开发", "问答"],
+                description: "开发者问答社区",
+                createdAt: "2023-06-20",
+                favicon: "https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
+            },
+            {
+                id: 3,
+                title: "MDN Web Docs",
+                url: "https://developer.mozilla.org",
+                tags: ["开发", "文档"],
+                description: "Web开发文档",
+                createdAt: "2023-04-10",
+                favicon: "https://developer.mozilla.org/favicon.ico"
+            },
+            {
+                id: 4,
+                title: "CSS Tricks",
+                url: "https://css-tricks.com",
+                tags: ["前端", "CSS"],
+                description: "CSS技巧和教程",
+                createdAt: "2023-07-05",
+                favicon: "https://css-tricks.com/favicon.ico"
+            },
+            {
+                id: 5,
+                title: "Dev.to",
+                url: "https://dev.to",
+                tags: ["开发", "博客"],
+                description: "开发者社区和博客",
+                createdAt: "2023-03-18",
+                favicon: "https://dev-to.s3.amazonaws.com/favicon.ico"
+            },
+            {
+                id: 6,
+                title: "Codepen",
+                url: "https://codepen.io",
+                tags: ["前端", "代码"],
+                description: "前端代码在线编辑器",
+                createdAt: "2023-02-22",
+                favicon: "https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico"
+            }
+        ];
+
+        // 渲染书签卡片
+        function renderBookmarks(bookmarksToRender) {
+            const bookmarkGrid = document.getElementById('bookmarkGrid');
+            bookmarkGrid.innerHTML = '';
+            
+            bookmarksToRender.forEach(bookmark => {
+                const card = document.createElement('div');
+                card.className = 'bookmark-card';
+                
+                card.innerHTML = `
+                    <h3 class="bookmark-title">${bookmark.title}</h3>
+                    <a href="${bookmark.url}" target="_blank" class="bookmark-url">${bookmark.url}</a>
+                    ${bookmark.description ? `<p class="bookmark-desc">${bookmark.description}</p>` : ''}
+                    <div class="bookmark-tags">
+                        ${bookmark.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="bookmark-actions">
+                        <button class="action-btn" title="编辑">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn" title="删除">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                bookmarkGrid.appendChild(card);
+            });
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBookmarks(bookmarks);
+            
+            // 搜索功能
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filtered = bookmarks.filter(bookmark => 
+                    bookmark.title.toLowerCase().includes(searchTerm) ||
+                    bookmark.url.toLowerCase().includes(searchTerm) ||
+                    (bookmark.description && bookmark.description.toLowerCase().includes(searchTerm)) ||
+                    bookmark.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+                );
+                renderBookmarks(filtered);
+            });
+            
+            // 文件夹切换
+            document.querySelectorAll('.folder-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    // 这里可以添加根据文件夹筛选书签的逻辑
+                });
+            });
+            
+            // 添加书签按钮
+            document.getElementById('addBookmarkBtn').addEventListener('click', () => {
+                alert('添加书签功能将在后续实现');
+                // 这里可以打开添加书签的模态框
+            });
+            
+            // 导入/导出按钮
+            document.getElementById('importBtn').addEventListener('click', () => {
+                alert('导入功能将在后续实现');
+            });
+            
+            document.getElementById('exportBtn').addEventListener('click', () => {
+                alert('导出功能将在后续实现');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -12,7 +12,7 @@
 
 ## 技术栈
 
-- 前端：Vue3 + Element Plus
+- 前端：Html + JS
 - 后端：FastAPI
 - 数据库：SQLite
 - 桌面化：PyWebview
@@ -24,20 +24,13 @@
 pip install -r requirements.txt
 ```
 
-2. 安装前端依赖：
-```bash
-cd frontend
-npm install
-```
-
-3. 启动开发服务器：
+2. 启动开发服务器：
 ```bash
 # 后端
-python backend/main.py
+uvicorn backend.main:app --reload
 
 # 前端
-cd frontend
-npm run dev
+python main.py
 ```
 
 ## 使用说明
