@@ -1,24 +1,9 @@
 # PyWebView入口点
-
-
 import webview
 import uvicorn
 import threading
-from backend.main import app
+from backend.api import app
 
-
-# class Api:
-#     def __init__(self):
-#         self.window = None
-    
-#     def set_window(self, window):
-#         self.window = window
-    
-#     def say_hello(self, name):
-#         return f"Hello, {name}!"
-    
-#     def show_alert(self, message):
-#         self.window.evaluate_js(f'alert("{message}")')
 
 def run_server():
     uvicorn.run(app, host="127.0.0.1", port=8000)

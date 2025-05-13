@@ -65,9 +65,25 @@ def generate_sample_bookmarks(num: int = 20):
     db.commit()
     print(f"成功创建 {num} 个示例书签")
 
+
+def generate_sample_bookmarks_test(num: int = 20):
+    # from database import SessionLocal
+    # from models import BookmarkDB
+
+    db = SessionLocal()
+    bookmarks = db.query(BookmarkDB).limit(num).all()
+    for bm in bookmarks:
+        print(f"{bm.id}. {bm.title}")
+        print(f"URL: {bm.url}")
+        print(f"分类: {bm.categories}")
+        print(f"标签: {bm.tags}")
+        print("-" * 50)
+    db.close()
+
 if __name__ == "__main__":
     try:
-        generate_sample_bookmarks(30)  # 创建30个示例书签
+        # generate_sample_bookmarks(30)  # 创建30个示例书签
+        generate_sample_bookmarks_test(30)  # 测试读取
     except Exception as e:
         print(f"发生错误: {e}")
     finally:

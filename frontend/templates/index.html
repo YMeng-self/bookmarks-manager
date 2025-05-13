@@ -303,6 +303,254 @@
                 width: 200px;
             }
         }
+
+        /* 目录设计 */
+        .category-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .category-tag i {
+            font-size: 0.6rem;
+        }
+
+        .badge {
+            margin-left: auto;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        .folder-item .badge {
+            background-color: transparent;
+            color: var(--gray-color);
+        }
+
+        .folder-item.active .badge {
+            color: var(--primary-color);
+        }
+
+
+        .bookmark-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            background-color: #eee1e1;
+            color: #2326a5;
+        }
+
+        .category-tag {
+            background-color: #d4e6f1;
+            color: #2c5e8f;
+        }
+
+        .tag i {
+            margin-right: 0.25rem;
+            font-size: 0.7em;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e5177a;
+        }
+
+        /* 添加到style标签中 */
+        .import-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .import-option {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .import-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .import-option i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .file-upload-label i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        #import-file-section, #browserImportSection {
+            margin-bottom: 1.5rem;
+        }
+
+        #importFileName {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .browser-path {
+            background-color: #f5f5f5;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .import-options-checkbox {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .import-options-checkbox label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .import-result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-label {
+            font-weight: 500;
+        }
+
+        .result-value {
+            color: var(--primary-color);
+        }
+
+        #importResultModal .modal-body {
+            padding: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -343,7 +591,7 @@
                 </button>
             </div>
             <ul class="folder-list">
-                <li class="folder-item active">
+                <!-- <li class="folder-item active">
                     <i class="fas fa-bookmark"></i>
                     <span>所有书签</span>
                     <span class="badge">42</span>
@@ -352,27 +600,7 @@
                     <i class="fas fa-folder"></i>
                     <span>工作</span>
                     <span class="badge">12</span>
-                </li>
-                <li class="folder-item">
-                    <i class="fas fa-folder"></i>
-                    <span>学习</span>
-                    <span class="badge">8</span>
-                </li>
-                <li class="folder-item">
-                    <i class="fas fa-folder"></i>
-                    <span>娱乐</span>
-                    <span class="badge">15</span>
-                </li>
-                <li class="folder-item">
-                    <i class="fas fa-folder"></i>
-                    <span>开发</span>
-                    <span class="badge">7</span>
-                </li>
-                <li class="folder-item">
-                    <i class="fas fa-folder"></i>
-                    <span>设计</span>
-                    <span class="badge">5</span>
-                </li>
+                </li> -->
             </ul>
         </div>
 
@@ -399,135 +627,778 @@
         <!-- 模态框内容将在JavaScript中实现 -->
     </div>
 
+    <!-- 编辑书签模态框 -->
+    <div class="modal" id="editBookmarkModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑书签</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editBookmarkForm">
+                    <div class="form-group">
+                        <label for="editTitle">标题</label>
+                        <input type="text" id="editTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUrl">URL</label>
+                        <input type="url" id="editUrl" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTags">标签（用逗号分隔）</label>
+                        <input type="text" id="editTags" placeholder="例如: 编程,前端,工具">
+                    </div>
+                    <input type="hidden" id="editBookmarkId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelEditBtn">取消</button>
+                <button class="btn btn-primary" id="saveEditBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除确认模态框 -->
+    <div class="modal" id="deleteConfirmModal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>确认删除</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除这个书签吗？此操作无法撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDeleteBtn">取消</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加到HTML文件的body部分 -->
+    <div class="modal" id="importModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>导入书签</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-options">
+                    <div class="import-option active" data-type="file">
+                        <i class="fas fa-file-import"></i>
+                        <span>从HTML文件导入</span>
+                    </div>
+                    <div class="import-option" data-type="chrome">
+                        <i class="fab fa-chrome"></i>
+                        <span>从Chrome导入</span>
+                    </div>
+                    <div class="import-option" data-type="edge">
+                        <i class="fab fa-edge"></i>
+                        <span>从Edge导入</span>
+                    </div>
+                </div>
+                
+                <div class="import-file-section" id="fileImportSection">
+                    <input type="file" id="bookmarkFile" accept=".html" style="display: none;">
+                    <label for="bookmarkFile" class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>选择书签HTML文件</span>
+                    </label>
+                    <div id="fileName"></div>
+                </div>
+                
+                <div class="import-browser-section" id="browserImportSection" style="display: none;">
+                    <p>将从您的<b id="browserName"></b>浏览器导入书签</p>
+                    <div class="browser-path" id="browserPath"></div>
+                </div>
+                
+                <div class="import-options-checkbox">
+                    <label>
+                        <input type="checkbox" id="autoTagCheckbox" checked>
+                        <span>自动添加标签</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="skipDuplicatesCheckbox" checked>
+                        <span>跳过重复书签</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelImportBtn">取消</button>
+                <button class="btn btn-primary" id="confirmImportBtn">开始导入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入结果模态框 -->
+    <div class="modal" id="importResultModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>导入结果</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-result-item">
+                    <span class="result-label">总书签数:</span>
+                    <span class="result-value" id="totalBookmarks">0</span>
+                </div>
+                <div class="import-result-item">
+                    <span class="result-label">成功导入:</span>
+                    <span class="result-value" id="importedBookmarks">0</span>
+                </div>
+                <div class="import-result-item">
+                    <span class="result-label">重复跳过:</span>
+                    <span class="result-value" id="duplicateBookmarks">0</span>
+                </div>
+                <div class="import-result-item">
+                    <span class="result-label">新增标签:</span>
+                    <span class="result-value" id="newTags"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="closeImportResultBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // 示例数据
-        const bookmarks = [
-            {
-                id: 1,
-                title: "GitHub",
-                url: "https://github.com",
-                tags: ["开发", "代码"],
-                description: "代码托管平台",
-                createdAt: "2023-05-15",
-                favicon: "https://github.githubassets.com/favicons/favicon.png"
-            },
-            {
-                id: 2,
-                title: "Stack Overflow",
-                url: "https://stackoverflow.com",
-                tags: ["开发", "问答"],
-                description: "开发者问答社区",
-                createdAt: "2023-06-20",
-                favicon: "https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
-            },
-            {
-                id: 3,
-                title: "MDN Web Docs",
-                url: "https://developer.mozilla.org",
-                tags: ["开发", "文档"],
-                description: "Web开发文档",
-                createdAt: "2023-04-10",
-                favicon: "https://developer.mozilla.org/favicon.ico"
-            },
-            {
-                id: 4,
-                title: "CSS Tricks",
-                url: "https://css-tricks.com",
-                tags: ["前端", "CSS"],
-                description: "CSS技巧和教程",
-                createdAt: "2023-07-05",
-                favicon: "https://css-tricks.com/favicon.ico"
-            },
-            {
-                id: 5,
-                title: "Dev.to",
-                url: "https://dev.to",
-                tags: ["开发", "博客"],
-                description: "开发者社区和博客",
-                createdAt: "2023-03-18",
-                favicon: "https://dev-to.s3.amazonaws.com/favicon.ico"
-            },
-            {
-                id: 6,
-                title: "Codepen",
-                url: "https://codepen.io",
-                tags: ["前端", "代码"],
-                description: "前端代码在线编辑器",
-                createdAt: "2023-02-22",
-                favicon: "https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico"
+    // 显示加载状态
+    function showLoading() {
+        const bookmarkGrid = document.getElementById('bookmarkGrid');
+        bookmarkGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">加载中...</div>';
+    }
+
+    // 获取分类统计数据的函数
+    async function fetchCategoryStats() {
+        try {
+            const response = await fetch('/api/bookmarks/stats');
+            if (!response.ok) {
+                throw new Error('获取分类数据失败');
             }
-        ];
-
-        // 渲染书签卡片
-        function renderBookmarks(bookmarksToRender) {
-            const bookmarkGrid = document.getElementById('bookmarkGrid');
-            bookmarkGrid.innerHTML = '';
-            
-            bookmarksToRender.forEach(bookmark => {
-                const card = document.createElement('div');
-                card.className = 'bookmark-card';
-                
-                card.innerHTML = `
-                    <h3 class="bookmark-title">${bookmark.title}</h3>
-                    <a href="${bookmark.url}" target="_blank" class="bookmark-url">${bookmark.url}</a>
-                    ${bookmark.description ? `<p class="bookmark-desc">${bookmark.description}</p>` : ''}
-                    <div class="bookmark-tags">
-                        ${bookmark.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    <div class="bookmark-actions">
-                        <button class="action-btn" title="编辑">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn" title="删除">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                
-                bookmarkGrid.appendChild(card);
-            });
+            return await response.json();
+        } catch (error) {
+            console.error('获取分类统计时出错:', error);
+            return {};
         }
+    }
 
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', () => {
-            renderBookmarks(bookmarks);
+    // 渲染分类目录
+    async function renderCategories() {
+        const stats = await fetchCategoryStats();
+        const folderList = document.querySelector('.folder-list');
+
+        // 添加"所有书签"项
+        const totalItem = document.createElement('li');
+        totalItem.className = 'folder-item active';
+        totalItem.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span>所有书签</span>
+            <span class="badge">${stats._totalbookmarks || 0}</span>
+        `;
+        folderList.appendChild(totalItem);
+        
+        // 添加"未分类"项
+        const uncategorizedItem = document.createElement('li');
+        uncategorizedItem.className = 'folder-item';
+        uncategorizedItem.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span>未分类</span>
+            <span class="badge">${stats._uncategorized || 0}</span>
+        `;
+        folderList.appendChild(uncategorizedItem);
+        
+        // 添加分类项
+        Object.entries(stats.categories || {}).forEach(([category, count]) => {
+            if (category === '_uncategorized') return;
             
-            // 搜索功能
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filtered = bookmarks.filter(bookmark => 
-                    bookmark.title.toLowerCase().includes(searchTerm) ||
-                    bookmark.url.toLowerCase().includes(searchTerm) ||
-                    (bookmark.description && bookmark.description.toLowerCase().includes(searchTerm)) ||
-                    bookmark.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-                );
-                renderBookmarks(filtered);
-            });
-            
-            // 文件夹切换
-            document.querySelectorAll('.folder-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-                    // 这里可以添加根据文件夹筛选书签的逻辑
-                });
-            });
-            
-            // 添加书签按钮
-            document.getElementById('addBookmarkBtn').addEventListener('click', () => {
-                alert('添加书签功能将在后续实现');
-                // 这里可以打开添加书签的模态框
-            });
-            
-            // 导入/导出按钮
-            document.getElementById('importBtn').addEventListener('click', () => {
-                alert('导入功能将在后续实现');
-            });
-            
-            document.getElementById('exportBtn').addEventListener('click', () => {
-                alert('导出功能将在后续实现');
+            const categoryItem = document.createElement('li');
+            categoryItem.className = 'folder-item';
+            categoryItem.innerHTML = `
+                <i class="fas fa-tag"></i>
+                <span>${category}</span>
+                <span class="badge">${count}</span>
+            `;
+            folderList.appendChild(categoryItem);
+        });
+    
+        
+        // 添加点击事件
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                const filterType = item.querySelector('i').className.includes('fa-folder') ? 'folder' : 
+                                item.querySelector('span').textContent === '未分类' ? 'uncategorized' : 
+                                'category';
+                
+                const filterValue = item.querySelector('span').textContent;
+                
+                let bookmarks = await fetchBookmarks();
+                
+                if (filterType === 'category' && filterValue !== '所有书签') {
+                    bookmarks = bookmarks.filter(bookmark => 
+                        bookmark.categories && bookmark.categories.includes(filterValue)
+                    );
+                } else if (filterType === 'uncategorized') {
+                    bookmarks = bookmarks.filter(bookmark => 
+                        !bookmark.tags || bookmark.tags.length === 0
+                    );
+                } else if (filterType === 'folder') {
+                    // 这里需要API支持按文件夹过滤
+                    // bookmarks = await fetch(`/api/bookmarks?folder=${filterValue}`).then(res => res.json());
+                }
+                
+                renderBookmarks(bookmarks);
             });
         });
+    }
+
+
+    // 获取书签数据的函数
+    async function fetchBookmarks(category = null) {
+        showLoading();
+        try {
+            const url = category ? `/api/bookmarks?folder=${encodeURIComponent(category)}` : '/api/bookmarks';
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('获取书签数据失败');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('获取书签时出错:', error);
+            return [];
+        }
+    }
+
+    // 渲染书签卡片
+    function renderBookmarks(bookmarks) {
+        const bookmarkGrid = document.getElementById('bookmarkGrid');
+        bookmarkGrid.innerHTML = '';
+        
+        bookmarks.forEach(bookmark => {
+            const card = document.createElement('div');
+            card.className = 'bookmark-card';
+
+            // 解析标签（兼容字符串和数组格式）
+            let tags = [];
+            try {
+                tags = typeof bookmark._tags === 'string' ? 
+                    JSON.parse(bookmark._tags.replace(/\\"/g, '"')) : 
+                    bookmark._tags || [];
+            } catch (e) {
+                console.error('Error parsing tags:', e);
+            }
+
+            // 将标签数组转换为逗号分隔的字符串用于编辑
+            const tagsString = tags.join(', ');
+
+            card.innerHTML = `
+                <h3 class="bookmark-title">${bookmark.title}</h3>
+                <a href="${bookmark.url}" class="bookmark-url" target="_blank">${bookmark.url}</a>
+                <div class="bookmark-tags">
+                    ${tags.map(tag => {
+                        const isCategory = typeof tag === 'string' && tag.startsWith('category:');
+                        const tagName = isCategory ? tag.split(':')[1] : tag;
+                        return `
+                        <span class="tag ${isCategory ? 'category-tag' : ''}">
+                            <i class="fas ${isCategory ? 'fa-folder' : 'fa-tag'}"></i>
+                            ${tagName}
+                        </span>
+                        `;
+                    }).join('')}
+                </div>
+                <div class="bookmark-actions">
+                    <button class="action-btn edit-btn" title="编辑" data-id="${bookmark.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" title="删除" data-id="${bookmark.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+
+            // card.innerHTML = `
+            //     <h3 class="bookmark-title">${bookmark.title}</h3>
+            //     <a href="${bookmark.url}" class="bookmark-url" target="_blank">${bookmark.url}</a>
+            //     <div class="bookmark-tags">
+            //         ${bookmark._tags ? 
+            //             (() => {
+            //             try {
+            //                 const tags = JSON.parse(bookmark._tags.replace(/\\"/g, '"'));
+            //                 return Array.isArray(tags) ? 
+            //                 tags.map(tag => {
+            //                     const isCategory = typeof tag === 'string' && tag.startsWith('category:');
+            //                     const tagName = isCategory ? tag.split(':')[1] : tag;
+            //                     return `
+            //                     <span class="tag ${isCategory ? 'category-tag' : ''}">
+            //                         <i class="fas ${isCategory ? 'fa-folder' : 'fa-tag'}"></i>
+            //                         ${tagName}
+            //                     </span>
+            //                     `;
+            //                 }).join('') 
+            //                 : '';
+            //             } catch (e) {
+            //                 console.error('Error parsing tags:', e);
+            //                 return '';
+            //             }
+            //             })()
+            //         : ''}
+            //     </div>
+            //     <div class="bookmark-actions">
+            //         <button class="action-btn" title="编辑"><i class="fas fa-edit"></i></button>
+            //         <button class="action-btn" title="删除"><i class="fas fa-trash"></i></button>
+            //     </div>
+            // `;
+            
+            bookmarkGrid.appendChild(card);
+            
+        });
+
+        // 添加编辑和删除按钮的事件监听
+        addEditDeleteEventListeners();
+    }
+
+    // 添加编辑和删除按钮的事件监听
+    function addEditDeleteEventListeners() {
+        // 编辑按钮
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const bookmarkId = e.currentTarget.getAttribute('data-id');
+                await showEditModal(bookmarkId);
+            });
+        });
+        
+        // 删除按钮
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const bookmarkId = e.currentTarget.getAttribute('data-id');
+                showDeleteConfirmModal(bookmarkId);
+            });
+        });
+    }
+
+    // 显示编辑模态框
+    async function showEditModal(bookmarkId) {
+        try {
+            // 获取书签详情
+            const response = await fetch(`/api/bookmarks/${bookmarkId}`);
+            if (!response.ok) throw new Error('获取书签详情失败');
+            const bookmark = await response.json();
+            
+            // 解析标签（兼容字符串和数组格式）
+            let tags = [];
+            try {
+                tags = typeof bookmark._tags === 'string' ? 
+                    JSON.parse(bookmark._tags.replace(/\\"/g, '"')) : 
+                    bookmark._tags || [];
+            } catch (e) {
+                console.error('Error parsing tags:', e);
+            }
+            
+            // 填充表单
+            document.getElementById('editTitle').value = bookmark.title;
+            document.getElementById('editUrl').value = bookmark.url;
+            document.getElementById('editTags').value = tags.join(', ');
+            document.getElementById('editBookmarkId').value = bookmarkId;
+            
+            // 显示模态框
+            document.getElementById('editBookmarkModal').style.display = 'flex';
+        } catch (error) {
+            console.error('加载书签详情时出错:', error);
+            alert('无法加载书签详情');
+        }
+    }
+
+    // 显示删除确认模态框
+    function showDeleteConfirmModal(bookmarkId) {
+        // 存储当前要删除的书签ID
+        document.getElementById('deleteConfirmModal').dataset.bookmarkId = bookmarkId;
+        document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    // 保存编辑
+    async function saveBookmarkEdit() {
+        const bookmarkId = document.getElementById('editBookmarkId').value;
+        const title = document.getElementById('editTitle').value.trim();
+        const url = document.getElementById('editUrl').value.trim();
+        const tags = document.getElementById('editTags').value
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag);
+        
+        if (!title || !url) {
+            alert('标题和URL不能为空');
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/bookmarks/${bookmarkId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title,
+                    url,
+                    _tags: tags
+                })
+            });
+            
+            if (!response.ok) throw new Error('更新书签失败');
+            
+            // 关闭模态框并刷新列表
+            document.getElementById('editBookmarkModal').style.display = 'none';
+            const bookmarks = await fetchBookmarks();
+            renderBookmarks(bookmarks);
+        } catch (error) {
+            console.error('更新书签时出错:', error);
+            alert('更新书签失败');
+        }
+    }
+
+    // 确认删除
+    async function confirmDelete() {
+        const bookmarkId = document.getElementById('deleteConfirmModal').dataset.bookmarkId;
+        
+        try {
+            const response = await fetch(`/api/bookmarks/${bookmarkId}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) throw new Error('删除书签失败');
+            
+            // 关闭模态框并刷新列表
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+            const bookmarks = await fetchBookmarks();
+            renderBookmarks(bookmarks);
+        } catch (error) {
+            console.error('删除书签时出错:', error);
+            alert('删除书签失败');
+        }
+    }
+
+
+
+    // CRUD操作函数
+    async function addBookmark(bookmarkData) {
+        try {
+            const response = await fetch('/api/bookmarks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookmarkData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('添加书签失败');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('添加书签时出错:', error);
+            throw error;
+        }
+    }
+
+    async function updateBookmark(id, bookmarkData) {
+        try {
+            const response = await fetch(`/api/bookmarks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookmarkData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('更新书签失败');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('更新书签时出错:', error);
+            throw error;
+        }
+    }
+
+    async function deleteBookmark(id) {
+        try {
+            const response = await fetch(`/api/bookmarks/${id}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                throw new Error('删除书签失败');
+            }
+            
+            // 重新加载书签
+            const bookmarks = await fetchBookmarks();
+            renderBookmarks(bookmarks);
+        } catch (error) {
+            console.error('删除书签时出错:', error);
+            alert('删除书签失败');
+        }
+    }
+
+    // 显示添加书签模态框
+    function showAddBookmarkModal() {
+        // 这里需要实现模态框显示逻辑
+        alert('添加书签模态框将在后续实现');
+        // 实际实现应该包含表单字段和处理逻辑
+    }
+
+    // 导入功能实现
+    document.getElementById('importBtn').addEventListener('click', () => {
+        document.getElementById('importModal').style.display = 'flex';
+    });
+
+    // 导入选项切换
+    document.querySelectorAll('.import-option').forEach(option => {
+        option.addEventListener('click', () => {
+            document.querySelectorAll('.import-option').forEach(opt => 
+                opt.classList.remove('active'));
+            option.classList.add('active');
+            
+            const importType = option.dataset.type;
+            document.getElementById('fileImportSection').style.display = 
+                importType === 'file' ? 'block' : 'none';
+            document.getElementById('browserImportSection').style.display = 
+                importType !== 'file' ? 'block' : 'none';
+            
+            if (importType !== 'file') {
+                document.getElementById('browserName').textContent = 
+                    importType === 'chrome' ? 'Chrome' : 'Edge';
+                // 显示预期的浏览器书签路径
+                updateBrowserPathDisplay(importType);
+            }
+        });
+    });
+
+    function updateBrowserPathDisplay(browserType) {
+        let path = '';
+        if (navigator.platform.includes('Win')) {
+            path = browserType === 'chrome' ? 
+                '%LOCALAPPDATA%\\Google\\Chrome\\User Data\\Default\\Bookmarks' :
+                '%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\Default\\Bookmarks';
+        } else if (navigator.platform.includes('Mac')) {
+            path = browserType === 'chrome' ?
+                '~/Library/Application Support/Google/Chrome/Default/Bookmarks' :
+                '~/Library/Application Support/Microsoft Edge/Default/Bookmarks';
+        } else { // Linux
+            path = browserType === 'chrome' ?
+                '~/.config/google-chrome/Default/Bookmarks' :
+                '~/.config/microsoft-edge/Default/Bookmarks';
+        }
+        document.getElementById('browserPath').textContent = path;
+    }
+
+    // 文件选择处理
+    document.getElementById('bookmarkFile').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            document.getElementById('fileName').textContent = `已选择: ${file.name}`;
+        }
+    });
+
+    // 开始导入
+    document.getElementById('confirmImportBtn').addEventListener('click', async () => {
+        const activeOption = document.querySelector('.import-option.active');
+        const importType = activeOption.dataset.type;
+        const autoTag = document.getElementById('autoTagCheckbox').checked;
+        const skipDuplicates = document.getElementById('skipDuplicatesCheckbox').checked;
+        
+        let formData = new FormData();
+        
+        if (importType === 'file') {
+            const fileInput = document.getElementById('bookmarkFile');
+            if (!fileInput.files.length) {
+                alert('请选择书签HTML文件');
+                return;
+            }
+            formData.append('file', fileInput.files[0]);
+        } else {
+            alert(importType);
+            formData.append('browser_type', importType);
+        }
+
+        // 调试：查看FormData内容
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+        
+        // 显示加载状态
+        const importBtn = document.getElementById('confirmImportBtn');
+        importBtn.disabled = true;
+        importBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 导入中...';
+        
+        try {
+            const response = await fetch('/api/bookmarks/import', {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            
+            const result = await response.json();
+            
+            // 显示导入结果
+            document.getElementById('importModal').style.display = 'none';
+            showImportResult(result);
+            
+            // 刷新书签列表
+            const bookmarks = await fetchBookmarks();
+            renderBookmarks(bookmarks);
+            
+        } catch (error) {
+            console.error('导入失败:', error);
+            alert(`导入失败: ${error.message}`);
+        } finally {
+            importBtn.disabled = false;
+            importBtn.textContent = '开始导入';
+        }
+    });
+
+    function showImportResult(result) {
+        document.getElementById('totalBookmarks').textContent = result.total;
+        document.getElementById('importedBookmarks').textContent = result.imported;
+        document.getElementById('duplicateBookmarks').textContent = result.duplicates;
+        document.getElementById('newTags').textContent = result.tags_added.join(', ');
+        document.getElementById('importResultModal').style.display = 'flex';
+    }
+
+    // 关闭导入模态框
+    document.getElementById('cancelImportBtn').addEventListener('click', () => {
+        document.getElementById('importModal').style.display = 'none';
+    });
+
+    document.querySelector('#importModal .close-btn').addEventListener('click', () => {
+        document.getElementById('importModal').style.display = 'none';
+    });
+
+    // 关闭结果模态框
+    document.getElementById('closeImportResultBtn').addEventListener('click', () => {
+        document.getElementById('importResultModal').style.display = 'none';
+    });
+
+    document.querySelector('#importResultModal .close-btn').addEventListener('click', () => {
+        document.getElementById('importResultModal').style.display = 'none';
+    });
+
+
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 先渲染分类目录
+        await renderCategories();
+
+        // 从API加载书签数据
+        const bookmarks = await fetchBookmarks();
+        renderBookmarks(bookmarks);
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = bookmarks.filter(bookmark => 
+                bookmark.title.toLowerCase().includes(searchTerm) ||
+                bookmark.url.toLowerCase().includes(searchTerm) ||
+                (bookmark.description && bookmark.description.toLowerCase().includes(searchTerm)) ||
+                (bookmark.tags && bookmark.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+            );
+            renderBookmarks(filtered);
+        });
+
+        // 编辑模态框事件
+        document.getElementById('saveEditBtn').addEventListener('click', saveBookmarkEdit);
+        document.getElementById('cancelEditBtn').addEventListener('click', () => {
+            document.getElementById('editBookmarkModal').style.display = 'none';
+        });
+        document.querySelector('#editBookmarkModal .close-btn').addEventListener('click', () => {
+            document.getElementById('editBookmarkModal').style.display = 'none';
+        });
+    
+        // 删除确认模态框事件
+        document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDelete);
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+        });
+        document.querySelector('#deleteConfirmModal .close-btn').addEventListener('click', () => {
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+        });
+    
+        // 点击模态框外部关闭
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    
+        // 阻止表单提交
+        document.getElementById('editBookmarkForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveBookmarkEdit();
+        });
+        
+        // 文件夹切换
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // 根据文件夹筛选书签
+                const folderName = item.querySelector('span').textContent;
+                if (folderName === '所有书签') {
+                    const allBookmarks = await fetchBookmarks();
+                    renderBookmarks(allBookmarks);
+                } else {
+                    // 假设API支持按文件夹过滤
+                    const folderBookmarks = await fetch(`/api/bookmarks?folder=${encodeURIComponent(folderName)}`)
+                        .then(res => res.json())
+                        .catch(() => []);
+                    renderBookmarks(folderBookmarks);
+                }
+            });
+        });
+        
+        // 添加书签按钮
+        document.getElementById('addBookmarkBtn').addEventListener('click', showAddBookmarkModal);
+        
+        // 导入/导出按钮
+        // document.getElementById('importBtn').addEventListener('click', () => {
+        //     // alert('导入功能将在后续实现');
+        // });
+        
+        document.getElementById('exportBtn').addEventListener('click', async () => {
+            alert('导出功能将在后续实现');
+        });
+    });
+    // 初始化新建文件夹按钮点击事件
+    document.querySelector('.sidebar-header .action-btn').addEventListener('click', async () => {
+        const categoryName = prompt('请输入新分类名称:');
+        if (categoryName && categoryName.trim()) {
+            try {
+                const response = await fetch('/api/categories', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name: categoryName.trim()})
+                });
+                
+                if (!response.ok) throw new Error('创建分类失败');
+                
+                // 刷新分类列表
+                await renderCategories();
+                alert('分类创建成功');
+            } catch (error) {
+                console.error('创建分类时出错:', error);
+                alert('创建分类失败: ' + error.message);
+            }
+        }
+    });
     </script>
 </body>
 </html>

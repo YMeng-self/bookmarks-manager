@@ -3,7 +3,7 @@
 # 导入数据库操作模块
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from backend.models import Base
 
 import os
 from pathlib import Path

@@ -27,7 +27,7 @@ pip install -r requirements.txt
 2. 启动开发服务器：
 ```bash
 # 后端
-uvicorn backend.main:app --reload
+uvicorn backend.api:app --reload
 
 # 前端
 python main.py

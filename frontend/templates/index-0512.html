@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书签管理器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: white;
+            padding: 0.8rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* 主内容区域 */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 左侧目录 */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-right: 1px solid #e9ecef;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .folder-list {
+            list-style: none;
+        }
+
+        .folder-item {
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .folder-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .folder-item.active {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .folder-item i {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .folder-item.active i {
+            color: var(--primary-color);
+        }
+
+        /* 右侧书签内容 */
+        .content {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .bookmark-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bookmark-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.2rem;
+            transition: var(--transition);
+            border: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bookmark-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .bookmark-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .bookmark-url {
+            color: var(--gray-color);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .bookmark-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .bookmark-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 0.3rem;
+            border-radius: 50%;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            .bookmark-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-box {
+                width: 200px;
+            }
+        }
+
+        /* 目录设计 */
+        .category-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .category-tag i {
+            font-size: 0.6rem;
+        }
+
+        .badge {
+            margin-left: auto;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        .folder-item .badge {
+            background-color: transparent;
+            color: var(--gray-color);
+        }
+
+        .folder-item.active .badge {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-bookmark"></i>
+            <span>书签管理器</span>
+        </div>
+        <div class="navbar-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索书签..." id="searchInput">
+            </div>
+            <button class="btn btn-outline" id="importBtn">
+                <i class="fas fa-file-import"></i>
+                <span class="desktop-text">导入</span>
+            </button>
+            <button class="btn btn-outline" id="exportBtn">
+                <i class="fas fa-file-export"></i>
+                <span class="desktop-text">导出</span>
+            </button>
+            <button class="btn btn-primary" id="addBookmarkBtn">
+                <i class="fas fa-plus"></i>
+                <span class="desktop-text">添加书签</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <div class="main-container">
+        <!-- 左侧目录 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title">目录</h3>
+                <button class="action-btn" title="新建文件夹">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <ul class="folder-list">
+                <!-- <li class="folder-item active">
+                    <i class="fas fa-bookmark"></i>
+                    <span>所有书签</span>
+                    <span class="badge">42</span>
+                </li>
+                <li class="folder-item">
+                    <i class="fas fa-folder"></i>
+                    <span>工作</span>
+                    <span class="badge">12</span>
+                </li> -->
+            </ul>
+        </div>
+
+        <!-- 右侧书签内容 -->
+        <div class="content">
+            <div class="content-header">
+                <h2 class="content-title">所有书签</h2>
+                <div class="sort-options">
+                    <select class="form-select">
+                        <option>按名称排序</option>
+                        <option>按日期排序</option>
+                        <option>按访问次数排序</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bookmark-grid" id="bookmarkGrid">
+                <!-- 书签卡片将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加书签模态框 -->
+    <div class="modal" id="addBookmarkModal" style="display: none;">
+        <!-- 模态框内容将在JavaScript中实现 -->
+    </div>
+
+    <script>
+    // 显示加载状态
+    function showLoading() {
+        const bookmarkGrid = document.getElementById('bookmarkGrid');
+        bookmarkGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">加载中...</div>';
+    }
+
+    // 获取分类统计数据的函数
+    async function fetchCategoryStats() {
+        try {
+            const response = await fetch('/api/bookmarks/stats');
+            if (!response.ok) {
+                throw new Error('获取分类数据失败');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('获取分类统计时出错:', error);
+            return {};
+        }
+    }
+
+    // 获取书签数据的函数
+    async function fetchBookmarks(category = null) {
+        showLoading();
+        try {
+            const url = category ? `/api/bookmarks?category=${encodeURIComponent(category)}` : '/api/bookmarks';
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('获取书签数据失败');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('获取书签时出错:', error);
+            return [];
+        }
+    }
+
+    // 渲染书签卡片
+    function renderBookmarks(bookmarks) {
+        const bookmarkGrid = document.getElementById('bookmarkGrid');
+        bookmarkGrid.innerHTML = '';
+        
+        bookmarks.forEach(bookmark => {
+            const card = document.createElement('div');
+            card.className = 'bookmark-card';
+            
+            card.innerHTML = `
+                <h3 class="bookmark-title">${bookmark.title}</h3>
+                <a href="${bookmark.url}" class="bookmark-url" target="_blank">${bookmark.url}</a>
+                <div class="bookmark-tags">
+                    ${bookmark.tags && Array.isArray(bookmark.tags) ? 
+                        bookmark.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : 
+                        ''}
+                </div>
+                <div class="bookmark-actions">
+                    <button class="action-btn" title="编辑"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn" title="删除"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+            
+            bookmarkGrid.appendChild(card);
+        });
+    }
+
+    // 初始化目录点击事件
+    function initFolderClickEvents() {
+        const folderItems = document.querySelectorAll('.folder-item');
+        
+        folderItems.forEach(item => {
+            item.addEventListener('click', async () => {
+                
+                // 更新活动状态
+                folderItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // 更新标题
+                const title = item.querySelector('span').textContent;
+                document.querySelector('.content-title').textContent = title;
+                
+                // 获取并渲染书签
+                const category = title === '所有书签' ? null : title;
+                const bookmarks = await fetchBookmarks(category);
+                
+                // 清除现有内容后再渲染
+                const bookmarkGrid = document.getElementById('bookmarkGrid');
+                bookmarkGrid.innerHTML = '';
+                renderBookmarks(bookmarks);
+            });
+        });
+    }
+
+    // 渲染分类目录
+    async function renderCategories() {
+        const stats = await fetchCategoryStats();
+        const folderList = document.querySelector('.folder-list');
+        
+        // 清空现有目录（保留第一个"所有书签"项）
+        // const allBookmarksItem = folderList.querySelector('.folder-item:first-child');
+        // folderList.innerHTML = '';
+        // folderList.appendChild(allBookmarksItem);
+
+        // 添加"所有书签"项
+        const totalItem = document.createElement('li');
+        totalItem.className = 'folder-item active';
+        totalItem.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span>所有书签</span>
+            <span class="badge">${stats._totalbookmarks || 0}</span>
+        `;
+        folderList.appendChild(totalItem);
+        
+        // 添加"未分类"项
+        const uncategorizedItem = document.createElement('li');
+        uncategorizedItem.className = 'folder-item';
+        uncategorizedItem.innerHTML = `
+            <i class="fas fa-tag"></i>
+            <span>未分类</span>
+            <span class="badge">${stats._uncategorized || 0}</span>
+        `;
+        folderList.appendChild(uncategorizedItem);
+        
+        // 添加分类项
+        Object.entries(stats.categories || {}).forEach(([category, count]) => {
+            if (category === '_uncategorized') return;
+            
+            const categoryItem = document.createElement('li');
+            categoryItem.className = 'folder-item';
+            categoryItem.innerHTML = `
+                <i class="fas fa-tag"></i>
+                <span>${category}</span>
+                <span class="badge">${count}</span>
+            `;
+            folderList.appendChild(categoryItem);
+        });
+        
+        // 添加文件夹项（静态示例，实际可以从API获取）
+        // const folders = ['工作', '学习', '开发', '设计'];
+        // folders.forEach(folder => {
+        //     const folderItem = document.createElement('li');
+        //     folderItem.className = 'folder-item';
+        //     folderItem.innerHTML = `
+        //         <i class="fas fa-folder"></i>
+        //         <span>${folder}</span>
+        //         <span class="badge">0</span>
+        //     `;
+        //     folderList.appendChild(folderItem);
+        // });
+        
+        // 添加点击事件
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                const filterType = item.querySelector('i').className.includes('fa-folder') ? 'folder' : 
+                                item.querySelector('span').textContent === '未分类' ? 'uncategorized' : 
+                                'category';
+                
+                const filterValue = item.querySelector('span').textContent;
+                
+                let bookmarks = await fetchBookmarks();
+                
+                if (filterType === 'category' && filterValue !== '所有书签') {
+                    bookmarks = bookmarks.filter(bookmark => 
+                        bookmark.categories && bookmark.categories.includes(filterValue)
+                    );
+                } else if (filterType === 'uncategorized') {
+                    bookmarks = bookmarks.filter(bookmark => 
+                        !bookmark.tags || bookmark.tags.length === 0
+                    );
+                } else if (filterType === 'folder') {
+                    // 这里需要API支持按文件夹过滤
+                    // bookmarks = await fetch(`/api/bookmarks?folder=${filterValue}`).then(res => res.json());
+                }
+                
+                renderBookmarks(bookmarks);
+            });
+        });
+    }
+
+    // 修改后的renderBookmarks函数
+    function renderBookmarks(bookmarksToRender) {
+        const bookmarkGrid = document.getElementById('bookmarkGrid');
+        bookmarkGrid.innerHTML = '';
+        
+        if (!bookmarksToRender || bookmarksToRender.length === 0) {
+            bookmarkGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray-color);">没有找到书签</p>';
+            return;
+        }
+        
+        bookmarksToRender.forEach(bookmark => {
+            const card = document.createElement('div');
+            card.className = 'bookmark-card';
+            
+            // 提取分类标签和普通标签
+            const categoryTags = bookmark.tags?.filter(tag => tag.startsWith('category:')) || [];
+            const regularTags = bookmark.tags?.filter(tag => !tag.startsWith('category:')) || [];
+            
+            card.innerHTML = `
+                <h3 class="bookmark-title">${bookmark.title || '无标题'}</h3>
+                <a href="${bookmark.url}" target="_blank" class="bookmark-url">${bookmark.url}</a>
+                ${bookmark.description ? `<p class="bookmark-desc">${bookmark.description}</p>` : ''}
+                <div class="bookmark-tags">
+                    ${categoryTags.map(tag => `
+                        <span class="tag category-tag" style="background-color: rgba(67, 97, 238, 0.2);">
+                            <i class="fas fa-tag"></i> ${tag.replace('category:', '')}
+                        </span>
+                    `).join('')}
+                    ${regularTags.map(tag => `
+                        <span class="tag">${tag}</span>
+                    `).join('')}
+                    ${bookmark.tags?.length === 0 ? '<span class="tag">未分类</span>' : ''}
+                </div>
+                <div class="bookmark-actions">
+                    <button class="action-btn edit-btn" data-id="${bookmark.id}" title="编辑">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" data-id="${bookmark.id}" title="删除">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            bookmarkGrid.appendChild(card);
+        });
+        
+        // 添加事件监听器...
+    }
+
+    // CRUD操作函数
+    async function addBookmark(bookmarkData) {
+        try {
+            const response = await fetch('/api/bookmarks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookmarkData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('添加书签失败');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('添加书签时出错:', error);
+            throw error;
+        }
+    }
+
+    async function updateBookmark(id, bookmarkData) {
+        try {
+            const response = await fetch(`/api/bookmarks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookmarkData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('更新书签失败');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('更新书签时出错:', error);
+            throw error;
+        }
+    }
+
+    async function deleteBookmark(id) {
+        try {
+            const response = await fetch(`/api/bookmarks/${id}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                throw new Error('删除书签失败');
+            }
+            
+            // 重新加载书签
+            const bookmarks = await fetchBookmarks();
+            renderBookmarks(bookmarks);
+        } catch (error) {
+            console.error('删除书签时出错:', error);
+            alert('删除书签失败');
+        }
+    }
+
+    // 显示添加书签模态框
+    function showAddBookmarkModal() {
+        // 这里需要实现模态框显示逻辑
+        alert('添加书签模态框将在后续实现');
+        // 实际实现应该包含表单字段和处理逻辑
+    }
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 先渲染分类目录
+        await renderCategories();
+
+        // 从API加载书签数据
+        const bookmarks = await fetchBookmarks();
+        renderBookmarks(bookmarks);
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = bookmarks.filter(bookmark => 
+                bookmark.title.toLowerCase().includes(searchTerm) ||
+                bookmark.url.toLowerCase().includes(searchTerm) ||
+                (bookmark.description && bookmark.description.toLowerCase().includes(searchTerm)) ||
+                (bookmark.tags && bookmark.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+            );
+            renderBookmarks(filtered);
+        });
+        
+        // 文件夹切换
+        document.querySelectorAll('.folder-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                document.querySelectorAll('.folder-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // 根据文件夹筛选书签
+                const folderName = item.querySelector('span').textContent;
+                if (folderName === '所有书签') {
+                    const allBookmarks = await fetchBookmarks();
+                    renderBookmarks(allBookmarks);
+                } else {
+                    // 假设API支持按文件夹过滤
+                    const folderBookmarks = await fetch(`/api/bookmarks?folder=${encodeURIComponent(folderName)}`)
+                        .then(res => res.json())
+                        .catch(() => []);
+                    renderBookmarks(folderBookmarks);
+                }
+            });
+        });
+        
+        // 添加书签按钮
+        document.getElementById('addBookmarkBtn').addEventListener('click', showAddBookmarkModal);
+        
+        // 导入/导出按钮
+        document.getElementById('importBtn').addEventListener('click', () => {
+            alert('导入功能将在后续实现');
+        });
+        
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            alert('导出功能将在后续实现');
+        });
+    });
+    </script>
+</body>
+</html>
